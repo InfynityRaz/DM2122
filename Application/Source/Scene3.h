@@ -1,19 +1,26 @@
-#ifndef SCENE_1_H
-#define SCENE_1_H
+#ifndef SCENE_3_H
+#define SCENE_3_H
 
+#include "Mtx44.h"
 #include "Scene.h"
 
-class Scene1 : public Scene
+class Scene3 : public Scene
 {
 	enum GEOMETRY_TYPE
 	{
-		GEO_TRIANGLE_1 = 0,
+		TREE,
 		NUM_GEOMETRY,
 	};
 
+	enum UNIFORM_TYPE
+	{
+		U_MVP = 0,
+		U_TOTAL,
+	};
+
 public:
-	Scene1();
-	~Scene1();
+	Scene3();
+	~Scene3();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -25,6 +32,10 @@ private:
 	unsigned m_vertexBuffer[NUM_GEOMETRY];
 	unsigned m_colorBuffer[NUM_GEOMETRY];
 	unsigned m_programID;
+	unsigned m_parameters[U_TOTAL];
+	float rotateAngle;
+	float translateX;
+	float scaleAll;
 };
 
 #endif
