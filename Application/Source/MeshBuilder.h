@@ -21,6 +21,7 @@ public:
 	static Mesh* GenerateCircle(const std::string& meshName, Color color, unsigned numSlice, float radius);
 	static Mesh* GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 	static Mesh* GenerateFrustrum(const std::string& meshName, Color color, unsigned numSlice, float topRadius, float bottomRadius, float height);
+	static Mesh* GenerateQuarterSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 };
 
 #endif

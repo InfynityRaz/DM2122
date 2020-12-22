@@ -91,11 +91,29 @@ void SceneLightAssignment::Init()
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 
-	meshList[GEO_HEAD] = MeshBuilder::GenerateFrustrum("sphere", Color(0.7, 0.7, 0.7), 36, 0.5f, 0.7f, 1.3);
-	meshList[GEO_HEAD]->material.kAmbient.Set(0.4f, 0.4f, 0.4f);
-	meshList[GEO_HEAD]->material.kDiffuse.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_HEAD]->material.kSpecular.Set(0.7f, 0.7f, 0.4f);
-	meshList[GEO_HEAD]->material.kShininess = 1.f;
+	meshList[GEO_FRUSTRUM] = MeshBuilder::GenerateFrustrum("frustrum", Color(1, 1, 1), 36, 0.7, 1, 1);
+	meshList[GEO_FRUSTRUM]->material.kAmbient.Set(0.4f, 0.4f, 0.4f);
+	meshList[GEO_FRUSTRUM]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_FRUSTRUM]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_FRUSTRUM]->material.kShininess = 1.f;
+
+	meshList[GEO_QUARTERSPHERE] = MeshBuilder::GenerateQuarterSphere("quarterSphere", Color(1, 1, 1), 10, 36, 1);
+	meshList[GEO_QUARTERSPHERE]->material.kAmbient.Set(0.4f, 0.4f, 0.4f);
+	meshList[GEO_QUARTERSPHERE]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_QUARTERSPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_QUARTERSPHERE]->material.kShininess = 1.f;
+
+	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 10, 36, 1);
+	meshList[GEO_SPHERE]->material.kAmbient.Set(0.4f, 0.4f, 0.4f);
+	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_SPHERE]->material.kShininess = 1.f;
+
+	meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(1, 1, 1), 36, 1);
+	meshList[GEO_CIRCLE]->material.kAmbient.Set(0.4f, 0.4f, 0.4f);
+	meshList[GEO_CIRCLE]->material.kDiffuse.Set(0.2f, 0.2f, 0.2f);
+	meshList[GEO_CIRCLE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_CIRCLE]->material.kShininess = 1.f;
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1, 1, 1), 10, 36, 0.1f);
 
@@ -179,12 +197,51 @@ void SceneLightAssignment::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
+	//head
 	modelStack.PushMatrix();
 
-	RenderMesh(meshList[GEO_HEAD], true);
+	modelStack.Scale(0.7f, 1.3f, 0.7f);
+	RenderMesh(meshList[GEO_FRUSTRUM], true);
+
+	//left eye
+	modelStack.PushMatrix();
+
+	modelStack.Scale(0.1f / 0.7, 0.1f / 1.3, 0.1f / 0.7);
+	modelStack.Translate(4.7f, 9.0f, 2.0f);
+	RenderMesh(meshList[GEO_SPHERE], true);
 
 	modelStack.PopMatrix();
 
+	//right eye
+	modelStack.PushMatrix();
+
+	modelStack.Scale(0.1f / 0.7, 0.1f / 1.3, 0.1f / 0.7);
+	modelStack.Translate(4.7f, 9.0f, -2.0f);
+	RenderMesh(meshList[GEO_SPHERE], true);
+
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+
+	//left arm
+	modelStack.PushMatrix();
+
+	modelStack.Rotate(180, 0, 0, 1);
+	modelStack.Translate(0, 0, 0.7);
+	RenderMesh(meshList[GEO_QUARTERSPHERE], true);
+
+	modelStack.PopMatrix();
+
+	//right arm
+	modelStack.PushMatrix();
+
+	modelStack.Rotate(180, 1, 0, 0);
+	modelStack.Translate(0, 0, 0.7);
+	RenderMesh(meshList[GEO_QUARTERSPHERE], true);
+
+	modelStack.PopMatrix();
+
+	/*
 	modelStack.PushMatrix();
 
 	modelStack.Rotate(270, 1, 0, 0);
@@ -192,6 +249,7 @@ void SceneLightAssignment::Render()
 	RenderMesh(meshList[GEO_QUAD], true);
 
 	modelStack.PopMatrix();
+	*/
 
 	modelStack.PushMatrix();
 

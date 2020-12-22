@@ -17,7 +17,10 @@ class SceneLightAssignment : public Scene
 	enum GEOMETRY_TYPE
 	{
 		GEO_AXES,
-		GEO_HEAD,
+		GEO_FRUSTRUM,
+		GEO_CIRCLE,
+		GEO_QUARTERSPHERE,
+		GEO_SPHERE,
 		GEO_LIGHTBALL,
 		GEO_QUAD,
 		NUM_GEOMETRY,
@@ -73,6 +76,16 @@ private:
 	Light light[1];
 
 	void RenderMesh(Mesh* mesh, bool enableLight);
+
+	float headAngle;
+	float leftUpperArmAngle;
+	float rightUpperArmAngle;
+	float leftLowerArmAngle;
+	float rightLowerArmAngle;
+	float leftUpperLegAngle;
+	float rightUpperLegAngle;
+	float leftLowerLegAngle;
+	float rightLowerLegAngle;
 };
 
 #endif

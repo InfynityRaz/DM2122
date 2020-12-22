@@ -198,7 +198,6 @@ Mesh* MeshBuilder::GenerateCircle(const std::string& meshName, Color color, unsi
 		float theta = slice * degreePerSlice;
 		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, radius * sin(Math::DegreeToRadian(theta)));
 		v.normal.Set(0, 1, 0);
-		//v.texCoord.Set();
 		vertex_buffer_data.push_back(v);
 
 		v.pos.Set(0, 0, 0);
@@ -246,10 +245,10 @@ Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsi
 	float degreePerStack = 180.f / numStack;
 	float degreePerSlice = 360.f / numSlice;
 
-	for (unsigned stack = 0; stack < numStack + 1; ++stack) //stack //replace with 180 for sphere
+	for (unsigned stack = 0; stack < numStack + 1; ++stack)
 	{
 		float phi = -90.f + stack * degreePerStack;
-		for (unsigned slice = 0; slice < numSlice + 1; ++slice) //slice
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 		{
 			float theta = slice * degreePerSlice;
 			v.pos.Set(radius * sphereX(phi, theta), radius * sphereY(phi, theta), radius * sphereZ(phi, theta));
@@ -288,7 +287,17 @@ Mesh* MeshBuilder::GenerateFrustrum(const std::string& meshName, Color color, un
 	std::vector<GLuint> index_buffer_data;
 
 	float degreePerSlice = 360.f / numSlice;
+	for (unsigned slice = 0; slice < numSlice + 1; ++slice)
+	{
+		float theta = slice * degreePerSlice;
+		v.pos.Set(0, 0, 0);
+		vertex_buffer_data.push_back(v);
 
+		v.pos.Set(bottomRadius * cos(Math::DegreeToRadian(theta)), 0, bottomRadius * sin(Math::DegreeToRadian(theta)));
+		v.normal.Set(0, 1, 0);
+		vertex_buffer_data.push_back(v);
+
+	}
 	for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 	{
 		float theta = slice * degreePerSlice;
@@ -302,8 +311,61 @@ Mesh* MeshBuilder::GenerateFrustrum(const std::string& meshName, Color color, un
 	}
 	for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 	{
+		float theta = slice * degreePerSlice;
+		v.pos.Set(topRadius * cos(Math::DegreeToRadian(theta)), height, topRadius * sin(Math::DegreeToRadian(theta)));
+		v.normal.Set(0, 1, 0);
+		vertex_buffer_data.push_back(v);
+
+		v.pos.Set(0, height, 0);
+		vertex_buffer_data.push_back(v);
+	}
+	for (unsigned slice = 0; slice < 3 * (numSlice + 1); ++slice)
+	{
 		index_buffer_data.push_back(2 * slice + 0);
 		index_buffer_data.push_back(2 * slice + 1);
+	}
+
+	Mesh* mesh = new Mesh(meshName);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
+
+	return mesh;
+}
+
+Mesh* MeshBuilder::GenerateQuarterSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius)
+{
+	Vertex v;
+	v.color = color;
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+
+	float degreePerStack = 90.f / numStack;
+	float degreePerSlice = 180.f / numSlice;
+
+	for (unsigned stack = 0; stack < numStack + 1; ++stack)
+	{
+		float phi = -90.f + stack * degreePerStack;
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
+		{
+			float theta = slice * degreePerSlice;
+			v.pos.Set(radius * sphereX(phi, theta), radius * sphereY(phi, theta), radius * sphereZ(phi, theta));
+			v.normal.Set(sphereX(phi, theta), sphereY(phi, theta), sphereZ(phi, theta));
+			vertex_buffer_data.push_back(v);
+		}
+	}
+	for (unsigned stack = 0; stack < numStack + 1; ++stack)
+	{
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
+		{
+			index_buffer_data.push_back((numSlice + 1) * stack + slice + 0);
+			index_buffer_data.push_back((numSlice + 1) * (stack + 1) + slice + 0);
+		}
 	}
 
 	Mesh* mesh = new Mesh(meshName);
