@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include "Vertex.h"
+#include "LoadOBJ.h"	
 #include "MyMath.h"
 #include <vector>
 
@@ -22,6 +23,11 @@ public:
 	static Mesh* GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 	static Mesh* GenerateFrustrum(const std::string& meshName, Color color, unsigned numSlice, float topRadius, float bottomRadius, float height);
 	static Mesh* GenerateQuarterSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
+
+	static Mesh* GenerateOBJ(const std::string &meshName, const std::string &file_path);
+	static Mesh* GenerateOBJMTL(const std::string& meshName, const std::string& file_path, const std::string& mtl_path);
+
+	static Mesh* GenerateText(const std::string& meshName, unsigned numRow, unsigned numCol);
 };
 
 #endif

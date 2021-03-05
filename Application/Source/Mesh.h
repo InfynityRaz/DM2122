@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Material.h"
 #include <string>
+#include <vector>
 
 /******************************************************************************/
 /*!
@@ -23,7 +24,6 @@ public:
 	};
 	Mesh(const std::string &meshName);
 	~Mesh();
-	void Render();
 
 	const std::string name;
 	DRAW_MODE mode;
@@ -32,6 +32,16 @@ public:
 	unsigned indexSize;
 	Material material;
 	unsigned textureID;
+
+	std::vector<Material> materials;
+	static unsigned locationKa;
+	static unsigned locationKd;
+	static unsigned locationKs;
+	static unsigned locationNs;
+
+	void Render();
+	void Render(unsigned offset, unsigned count);
+	static void SetMaterialLoc(unsigned kA, unsigned kD, unsigned kS, unsigned nS);
 };
 
 #endif
