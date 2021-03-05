@@ -9,9 +9,18 @@ class Application
 public:
 	Application();
 	~Application();
+
 	void Init();
 	void Run();
 	void Exit();
+
+	static bool IsMousePressed(unsigned short key);
+	static void GetCursorPos(double* xpos, double* ypos);
+	static int GetWindowWidth();
+	static int GetWindowHeight();
+	static unsigned m_width;
+	static unsigned m_height;
+
 	static bool IsKeyPressed(unsigned short key);
 
 private:
