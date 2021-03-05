@@ -1,4 +1,3 @@
-
 #include "Application.h"
 
 //Include GLEW
@@ -11,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SceneUI.h"
+#include "SceneAssignment2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -74,11 +73,6 @@ Application::~Application()
 {
 }
 
-void resize_callback(GLFWwindow* window, int w, int h)
-{
-	glViewport(0, 0, w, h);
-}
-
 void Application::Init()
 {
 	//Set the error callback
@@ -131,7 +125,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new SceneUI();
+	Scene *scene = new SceneAssignment2();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

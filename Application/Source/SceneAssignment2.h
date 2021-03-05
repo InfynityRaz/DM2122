@@ -52,17 +52,6 @@ class SceneAssignment2 : public Scene
 		U_LIGHT0_COSCUTOFF,
 		U_LIGHT0_COSINNER,
 		U_LIGHT0_EXPONENT,
-		U_LIGHT1_POSITION,
-		U_LIGHT1_COLOR,
-		U_LIGHT1_POWER,
-		U_LIGHT1_KC,
-		U_LIGHT1_KL,
-		U_LIGHT1_KQ,
-		U_LIGHT1_TYPE,
-		U_LIGHT1_SPOTDIRECTION,
-		U_LIGHT1_COSCUTOFF,
-		U_LIGHT1_COSINNER,
-		U_LIGHT1_EXPONENT,
 		U_LIGHTENABLED,
 		U_NUMLIGHTS,
 		U_COLOR_TEXTURE_ENABLED,
@@ -94,7 +83,7 @@ private:
 
 	MS modelStack, viewStack, projectionStack;
 
-	Light light[2];
+	Light light[1];
 
 	double FPS;
 
